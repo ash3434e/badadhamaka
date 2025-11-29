@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GPIO Web Server</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="container">
+    <!-- Top Institute Name -->
+    <div class="college-name">
+      <h1>Vishwakarma Institute of Information Technology</h1>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+      <h2 class="title">Raspberry Pi GPIO Web Server</h2>
+      <p class="subtitle">Flask-based interactive web interface to control LEDs</p>
+      <hr class="divider">
+    </header>
+
+    <!-- Student Details -->
+    <section class="meta-card">
+      <h2 class="section-heading">Student Information</h2>
+      <div class="details-grid">
+        <div><strong>Name:</strong> Name: </div>
+        <div><strong>Faculty:</strong> Prof. Dr. Pravin Gawande</div>
+        <div><strong>Roll No:</strong> Roll Number: </div>
+        <div><strong>PRN:</strong> PRN: </div>
+        <div><strong>Institute:</strong> Vishwakarma Institute of Information Technology</div>
+      </div>
+    </section>
+
+    <!-- LED Control Section -->
+    <section class="content-card">
+      <h2 class="content-title">LED Control Panel</h2>
+      <p class="content-desc">Use the buttons below to control the LEDs connected to the Raspberry Pi GPIO pins.</p>
+
+      <div class="led-control">
+        <div class="led-row">
+          <span class="led-label red">🔴 Red LED</span>
+          <div class="led-actions">
+            <a href="/ledRed/on" class="btn">Turn ON</a>
+            <a href="/ledRed/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label yellow">🟡 Yellow LED</span>
+          <div class="led-actions">
+            <a href="/ledYellow/on" class="btn">Turn ON</a>
+            <a href="/ledYellow/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label green">🟢 Green LED</span>
+          <div class="led-actions">
+            <a href="/ledGreen/on" class="btn">Turn ON</a>
+            <a href="/ledGreen/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>© VIIT Pune | Flask Web Server | Raspberry Pi Experiment</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESP32-CAM | IoT Experiment 6</title>
+    <style>
+        :root {
+            --bg: #f7f8fa;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --accent: #5c6bc0; /* Darker pastel blue-violet */
+            --accent-hover: #4e5aa1;
+            --danger: #e57373; /* Slightly darker pastel red */
+            --danger-hover: #d9534f;
+            --success: #81c784; /* Soft green */
+            --success-hover: #66bb6a;
+            --warning: #ffb74d; /* Soft orange for unlock */
+            --warning-hover: #ffa726;
+            --text: #2d2d2d;
+            --soft-text: #555;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: 0.25s ease;
+            font-family: "Inter", "Poppins", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(160deg, #f3f2ff, #fafbff);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 740px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 0.2rem;
+        }
+
+        header h2 {
+            font-size: 1.2rem;
+            color: var(--accent-hover);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            color: var(--soft-text);
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        /* New CSS rule for increased font size */
+        .student-details {
+            font-size: 1.1rem; /* Increased size for Name and Roll No */
+            color: var(--text); /* Make the text darker for better visibility */
+            font-weight: 600; /* Optional: Make the text slightly bolder */
+        }
+
+        .camera-frame {
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 360px;
+            position: relative;
+        }
+
+        #stream {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            /* Adjusted gap to accommodate the new button */
+            gap: 10px; 
+            margin-top: 1.5rem;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .btn {
+            padding: 10px 20px; /* Reduced padding for more buttons */
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .start {
+            background: var(--accent);
+        }
+
+        .start:hover {
+            background: var(--accent-hover);
+        }
+
+        .stop {
+            background: var(--danger);
+        }
+
+        .stop:hover {
+            background: var(--danger-hover);
+        }
+
+        .capture {
+            background: var(--success);
+        }
+
+        .capture:hover {
+            background: var(--success-hover);
+        }
+        
+        /* CSS for the new Unlock Button */
+        .unlock {
+            background: var(--warning);
+        }
+        
+        .unlock:hover {
+            background: var(--warning-hover);
+        }
+
+        .preview {
+            margin-top: 2rem;
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .preview h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+
+        .preview img {
+            width: 100%;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        /* Style for the Access Granted Alert */
+        .alert-granted {
+            margin-top: 1.5rem;
+            padding: 15px;
+            border-radius: var(--radius);
+            background: var(--success);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: none;
+            box-shadow: 0 2px 8px rgba(129, 199, 132, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Vishwakarma Institute of Information Technology</h1>
+            <h2>IoT Experiment 6 – ESP32-CAM for Security</h2>
+            <p class="student-details"><strong>Name:</strong> Name: </p>
+            <p class="student-details"><strong>Roll No:</strong> Roll Number: </p>
+        </header>
+
+        <section class="camera">
+            <div class="camera-frame">
+                <img id="stream" src="" alt="Camera Stream">
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="btn start">Start</button>
+                <button id="stopBtn" class="btn stop" disabled>Stop</button>
+                <button id="captureBtn" class="btn capture" disabled>Capture</button>
+                <button id="unlockBtn" class="btn unlock" disabled>Unlock Door</button>
+            </div>
+            
+            <div id="accessGrantedAlert" class="alert-granted">
+                Face Matched. ACCESS GRANTED! Door Unlocked. 🔓
+            </div>
+        </section>
+
+        <section class="preview" id="capturePreview">
+            <h2>Captured Image</h2>
+            <img id="capturedImg" src="" alt="Captured frame">
+        </section>
+    </main>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        const unlockBtn = document.getElementById('unlockBtn'); // Get the new button
+        const img = document.getElementById('stream');
+        const capturedImg = document.getElementById('capturedImg');
+        const previewBox = document.getElementById('capturePreview');
+        const accessGrantedAlert = document.getElementById('accessGrantedAlert'); // Get the new alert box
+
+        let streaming = false;
+
+        startBtn.addEventListener('click', () => {
+            // NOTE: The commented line below is how you'd typically start the stream from an ESP32-CAM.
+            // It's commented out because this code is meant to run in a browser without an active ESP32 server.
+            // img.src = `http://${window.location.hostname}:80/`; 
+
+            // For demonstration purposes, let's assume the stream starts (visually).
+            img.style.display = 'block';
+            streaming = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            captureBtn.disabled = false;
+            unlockBtn.disabled = false; // Enable the unlock button when streaming starts
+
+            // Hide the alert if it was visible
+            accessGrantedAlert.style.display = 'none';
+
+            // Optional: Add a placeholder to make it look like a stream
+            // If you want to see a temporary image when 'Start' is pressed, uncomment the next line and provide a valid image URL.
+            // img.src = 'https://picsum.photos/740/360?random=1'; 
+        });
+
+        stopBtn.addEventListener('click', () => {
+            img.src = "";
+            img.style.display = 'none'; // Hide the image element
+            streaming = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            captureBtn.disabled = true;
+            unlockBtn.disabled = true; // Disable the unlock button
+            
+            // Hide the alert
+            accessGrantedAlert.style.display = 'none';
+        });
+
+        captureBtn.addEventListener('click', () => {
+            if (!streaming) return;
+
+            // To "capture" the live stream, we draw the current frame of the 'img' element onto a canvas.
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            // Set canvas size to the displayed image size
+            canvas.width = img.offsetWidth;
+            canvas.height = img.offsetHeight;
+            
+            // Draw the current image frame to the canvas
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            // Get the image data URL
+            capturedImg.src = canvas.toDataURL('image/png');
+            
+            // Show the preview section
+            previewBox.style.display = 'block';
+            
+            // Scroll to the preview
+            previewBox.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide the alert
+            accessGrantedAlert.style.display = 'none';
+        });
+        
+        // NEW JAVASCRIPT LOGIC for the Unlock Door button
+        unlockBtn.addEventListener('click', () => {
+            // In a real IoT application, an HTTP request to the ESP32 would go here:
+            // fetch('/unlock_door').then(response => { /* handle response */ });
+
+            // Display the 'Access Granted' message
+            accessGrantedAlert.style.display = 'block';
+            
+            // Optional: Scroll to the alert for visibility
+            accessGrantedAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Optionally, you might want to automatically hide the message after a few seconds
+            setTimeout(() => {
+                accessGrantedAlert.style.display = 'none';
+            }, 5000); 
+        });
+    </script>
+</body>
+</html>
