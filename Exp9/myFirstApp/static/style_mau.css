@@ -1,0 +1,214 @@
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(180deg, #f8faff 0%, #eef3fa 100%);
+  color: #0f1724;
+  line-height: 1.6;
+  animation: fadeInBody 1s ease-in-out;
+}
+
+.container {
+  max-width: 950px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.college-name {
+  text-align: center;
+  background: #0b5fff;
+  color: white;
+  padding: 16px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 22px;
+  animation: fadeInDown 1s ease;
+}
+
+.college-name h1 {
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0b5fff;
+  margin-top: 8px;
+  animation: fadeInUp 1s ease;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #5f6b7b;
+  margin-top: 6px;
+  animation: fadeInUp 1.2s ease;
+}
+
+.divider {
+  margin: 18px 0;
+  border: 0;
+  border-top: 2px solid #d7e1f1;
+}
+
+.meta-card,
+.content-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeInCard 1s ease;
+}
+
+.meta-card:hover,
+.content-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.section-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #0b5fff;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+.content-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0b5fff;
+  margin-bottom: 8px;
+}
+
+.content-desc {
+  font-size: 13px;
+  color: #5f6b7b;
+  margin-bottom: 20px;
+}
+
+.led-control {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.led-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #e0e6f0;
+}
+
+.led-label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.led-label.red { color: #d93025; }
+.led-label.yellow { color: #f2a300; }
+.led-label.green { color: #188038; }
+
+.led-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  background: #0b5fff;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(11, 95, 255, 0.3);
+}
+
+.btn:hover {
+  background: #084ed4;
+  transform: scale(1.05);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #0f1724;
+  border: 1.5px solid #cfd7e3;
+}
+
+.btn-ghost:hover {
+  background: #eaf0ff;
+  border-color: #0b5fff;
+  color: #0b5fff;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 13px;
+  color: #6f7a8a;
+  padding-top: 10px;
+  border-top: 1px solid #dee4ef;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInBody {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
