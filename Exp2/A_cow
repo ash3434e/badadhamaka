@@ -1,0 +1,75 @@
+#include <TM1637Display.h>
+
+// Pin definitions for TM1637 display
+#define CLK 2   // TM1637 CLK to D2
+#define DIO 3   // TM1637 DIO to D3
+TM1637Display display(CLK, DIO);
+
+// LED Pins for each direction: {North, East, South, West}
+const int redPins[4] =    {4, 7, 10, 13};
+const int yellowPins[4] = {5, 8, 11, A0};
+const int greenPins[4] =  {6, 9, 12, A1};
+
+const int GREEN_TIME = 10;    // Green signal time in seconds
+const int YELLOW_TIME = 2;    // Yellow signal time in seconds
+
+// For millis() based non-blocking timers
+unsigned long phaseStartTime = 0;
+unsigned long currentMillis = 0;
+int phaseTime = 0;    // Current phase duration
+int dir = 0;          // Direction: 0=North, 1=East, 2=South, 3=West
+int phase = 0;        // 0=Green, 1=Yellow
+bool initPhase = true;
+
+void setup() {
+  // Set up LED pins
+  for (int i = 0; i < 4; i++) {
+    pinMode(redPins[i], OUTPUT);
+    pinMode(yellowPins[i], OUTPUT);
+    pinMode(greenPins[i], OUTPUT);
+  }
+  display.setBrightness(0x0f); // Max brightness
+}
+
+void loop() {
+  currentMillis = millis();
+
+  if (initPhase) {
+    // Set all red
+    for (int i = 0; i < 4; i++) {
+      digitalWrite(redPins[i], HIGH);
+      digitalWrite(yellowPins[i], LOW);
+      digitalWrite(greenPins[i], LOW);
+    }
+    // Set active direction to Green or Yellow
+    if (phase == 0) {        // Green
+      digitalWrite(redPins[dir], LOW);
+      digitalWrite(greenPins[dir], HIGH);
+      phaseTime = GREEN_TIME;
+    } else if (phase == 1) { // Yellow
+      digitalWrite(redPins[dir], LOW);
+      digitalWrite(greenPins[dir], LOW);
+      digitalWrite(yellowPins[dir], HIGH);
+      phaseTime = YELLOW_TIME;
+    }
+    phaseStartTime = currentMillis;
+    initPhase = false;
+  }
+  // Calculate how many seconds left
+  int timeLeft = phaseTime - ((currentMillis - phaseStartTime) / 1000);
+  if (timeLeft < 0) timeLeft = 0;
+  display.showNumberDecEx(timeLeft, 0b01000000, true); // Show with colon
+
+  // When phase time is up, change state
+  if (currentMillis - phaseStartTime >= (phaseTime * 1000UL)) {
+    // Move to next phase/direction
+    if (phase == 0) {
+      phase = 1; // Green -> Yellow
+    } else {
+      phase = 0; // Yellow -> next direction's Green
+      dir = (dir + 1) % 4; // Cycle through directions
+    }
+    initPhase = true;
+  }
+}
+
