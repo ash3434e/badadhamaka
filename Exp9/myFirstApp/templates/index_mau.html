@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Experiment 9 - GPIO Web Server</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <main class="container">
+    <!-- Top Institute Name -->
+    <div class="college-name">
+      <h1>------------------------------</h1>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+      <h2 class="title">-----------</h2>
+      <p class="subtitle">-------------------</p>
+      <hr class="divider">
+    </header>
+
+    <!-- Student Details -->
+    <section class="meta-card">
+      <h2 class="section-heading">Student Information</h2>
+      <div class="details-grid">
+        <div><strong>Name:</strong> ----------</div>
+        <div><strong>Faculty:</strong> -----------</div>
+        <div><strong>Roll No:</strong> -----------</div>
+        <div><strong>PRN:</strong> -----------</div>
+        <div><strong>Experiment No:</strong>---------</div>
+        <div><strong>Institute:</strong> -----------</div>
+      </div>
+    </section>
+
+    <!-- LED Control Section -->
+    <section class="content-card">
+      <h2 class="content-title">LED Control Panel</h2>
+      <p class="content-desc">Use the buttons below to control the LEDs connected to the Raspberry Pi GPIO pins.</p>
+
+      <div class="led-control">
+        <div class="led-row">
+          <span class="led-label red">🔴 Red LED</span>
+          <div class="led-actions">
+            <a href="/ledRed/on" class="btn">Turn ON</a>
+            <a href="/ledRed/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label yellow">🟡 Yellow LED</span>
+          <div class="led-actions">
+            <a href="/ledYellow/on" class="btn">Turn ON</a>
+            <a href="/ledYellow/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label green">🟢 Green LED</span>
+          <div class="led-actions">
+            <a href="/ledGreen/on" class="btn">Turn ON</a>
+            <a href="/ledGreen/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>-------------</p>
+    </footer>
+  </main>
+</body>
+</html>
