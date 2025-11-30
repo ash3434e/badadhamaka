@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GPIO Web Server</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <main class="container">
+    <div class="college-name">
+      <h1>Experiment - Raspberry Pi GPIO Web Server</h1>
+    </div>
+
+    <header class="header">
+      <h2 class="title">LED Control System</h2>
+      <hr class="divider">
+    </header>
+
+    <section class="meta-card">
+      <h2 class="section-heading">Student Information</h2>
+      <div class="details-grid">
+        <div><strong>Name:</strong> Enter Your Name</div>
+        <div><strong>Roll No:</strong> Enter Roll Number</div>
+        <div><strong>PRN:</strong> Enter PRN</div>
+        <div><strong>Instructor:</strong> Enter Faculty Name</div>
+      </div>
+    </section>
+
+    <section class="content-card">
+      <h2 class="content-title">LED Panel</h2>
+
+      <div class="led-control">
+
+        <div class="led-row">
+          <span class="led-label red">Red LED</span>
+          <div class="led-actions">
+            <a href="/ledRed/on" class="btn">Turn ON</a>
+            <a href="/ledRed/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label yellow">Yellow LED</span>
+          <div class="led-actions">
+            <a href="/ledYellow/on" class="btn">Turn ON</a>
+            <a href="/ledYellow/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+        <div class="led-row">
+          <span class="led-label green">Green LED</span>
+          <div class="led-actions">
+            <a href="/ledGreen/on" class="btn">Turn ON</a>
+            <a href="/ledGreen/off" class="btn btn-ghost">Turn OFF</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© Raspberry Pi Flask Web Server</p>
+    </footer>
+
+  </main>
+</body>
+</html>
